@@ -1,42 +1,22 @@
-const button = document.getElementById('button1');
-// document.getElementById('header').hidden = false;
-function changeBlock() {
-  document.getElementById('header').hidden =
-    !document.getElementById('header').hidden;
+let key = element.attr('name');
+let data = false;
+if (localStorage[key]) {
+  data = JSON.parse(localStorage[key]);
 }
-
-function modalWin(id) {
-  var maskHeight = $(document).height();
-  var maskWidth = $(window).width();
-  $('#mask').css({ width: maskWidth, height: maskHeight });
-  $('#mask').fadeIn(1000);
-  $('#mask').fadeTo('slow', 0.8);
-  var winH = $(window).height();
-  var winW = $(window).width();
-  $(id).css('top', winH / 2 - $(id).height() / 2);
-  $(id).css('left', winW / 2 - $(id).width() / 2);
-  $(id).fadeIn(2000);
+if (!data) {
+  localStorage[key] = JSON.stringify({});
+  data = JSON.parse(localStorage[key]);
 }
+element.find('input, select').change(on_change);
 
-let block1 = document.getElementById('block1');
-let block2 = document.getElementById('block2');
-const button2 = document.getElementById('button2 ');
-function change() {}
+function on_change(event) {
+  let input = $(event.target);
+  let key = input.parents('form:first').attr('name');
 
-$(document).ready(function () {
-  $('.window .close').click(function (e) {
-    e.preventDefault();
-    $('#mask, .window').hide();
-  });
-  $('#mask').click(function () {
-    $(this).hide();
-    $('.window').hide();
-  });
-});
-modalWin('#dialog');
+  let data = JSON.parse(localStorage[key]);
 
-const dialog = document.getElementById('dialog');
-function closeModal() {
-  document.getElementById('dialog').hidden =
-    !document.getElementById('dialog').hidden;
+  data[input.attr('name')] = input.val();
+  data[input.attr('last-name')] = input.val();
+
+  localStorage[key] = JSON.stringify(data);
 }
